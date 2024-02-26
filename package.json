@@ -70,14 +70,16 @@
     "react-native": "0.73.4",
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.0"
   },
   "resolutions": {
     "@types/react": "^18.2.44"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-gesture-handler": "*",
+    "react-native-reanimated": "*"
   },
   "workspaces": [
     "example"
@@ -122,11 +124,10 @@
       "prettier/prettier": [
         "error",
         {
-          "quoteProps": "consistent",
-          "singleQuote": true,
-          "tabWidth": 2,
-          "trailingComma": "es5",
-          "useTabs": false
+          "semi":false,
+          "useTabs": false,
+          "tabWidth": 4,
+          "singleQuote": true
         }
       ]
     }
@@ -136,11 +137,10 @@
     "lib/"
   ],
   "prettier": {
-    "quoteProps": "consistent",
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": false
+    "semi": false,
+    "useTabs": false,
+    "tabWidth": 4,
+    "singleQuote": true
   },
   "react-native-builder-bob": {
     "source": "src",
