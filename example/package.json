@@ -9,20 +9,24 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~50.0.7",
+    "expo": "~50.0.8",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.73.4",
-    "react-native-gesture-handler": "^2.15.0",
-    "react-native-reanimated": "^3.7.1",
+    "react-native-gesture-handler": "~2.14.0",
+    "react-native-reanimated": "~3.6.2",
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@expo/webpack-config": "^18.0.1",
+    "@expo/webpack-config": "~19.0.1",
+    "@types/react-native": "^0.73.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-module-resolver": "^5.0.0"
+  },
+  "resolutions": {
+    "@expo/cli": "50.0.8"
   },
   "private": true
 }
