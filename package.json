@@ -69,6 +69,8 @@
     "react": "18.2.0",
     "react-native": "0.73.4",
     "react-native-builder-bob": "^0.20.0",
+    "react-native-gesture-handler": "^2.14.0",
+    "react-native-reanimated": "^3.6.1",
     "release-it": "^15.0.0",
     "typescript": "^5.2.0"
   },
@@ -124,7 +126,7 @@
       "prettier/prettier": [
         "error",
         {
-          "semi":false,
+          "semi": false,
           "useTabs": false,
           "tabWidth": 4,
           "singleQuote": true
