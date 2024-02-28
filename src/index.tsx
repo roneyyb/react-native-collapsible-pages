@@ -26,7 +26,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
     activeIndex,
     setActiveIndex,
 }: IHOCForAddingAnimationFunctionalityPage) => {
-    console.log('data is here', callBack, activeIndex, setActiveIndex)
+    //console.log('data is here', callBack, activeIndex, setActiveIndex)
     const animatedRef = useAnimatedRef<AnimatedScrollView>()
     const [step, setStep] = useState(1)
 
@@ -37,20 +37,24 @@ const HOCForAddingAnimationFunctionalityPage = ({
     // Here collapsed is previous state
     const callAnimated = React.useCallback(
         (index: number, collapsed: boolean, collapsedState: boolean[]) => {
+            console.log(index, collapsed, collapsedState, 'DaTA')
             let nextOpenIndex = collapsedState.findIndex(
                 (item, currentItemIndex) => currentItemIndex > index && !item,
             )
 
-            nextOpenIndex = nextOpenIndex === -1 ? 3 : nextOpenIndex
+            console.log(nextOpenIndex, 'nextOpenINdex')
+
+            nextOpenIndex =
+                nextOpenIndex === -1 ? data.length - 1 : nextOpenIndex
             if (!collapsed) setActiveIndex(nextOpenIndex)
             else {
                 setActiveIndex(index)
             }
 
-            if (nextOpenIndex === 3 && !collapsed) {
-                animatedRef.current?.scrollTo({ animated: true, y: 0 })
-                return
-            }
+            // if (nextOpenIndex === data.length - 1 && !collapsed) {
+            //     animatedRef.current?.scrollTo({ animated: true, y: 0 })
+            //     return
+            // }
 
             const itemOpenGap = nextOpenIndex - index
             if (index === data.length - 1 && collapsed) {
@@ -58,8 +62,6 @@ const HOCForAddingAnimationFunctionalityPage = ({
             } else if (index === 0 && collapsed) {
                 animatedRef.current?.scrollTo({ animated: true, y: 0 })
             } else {
-                // console.log(index, "trigger", collapsed, index, data.slice(0, index - 1), collapsedState, data, (!collapsedState[index - 1] ? data[index - 1]?.animationOpeningHeight : ((data[index - 1].animationClosingHeight) / 2)));
-
                 if (data) {
                     var nextY
 
@@ -157,7 +159,15 @@ const HOCForAddingAnimationFunctionalityPage = ({
         if (activeIndex === 0) {
             return false
         } else {
-            if (collapsedState[activeIndex - 1]) {
+            if (
+                activeIndex === data.length - 1 &&
+                collapsedState[activeIndex]
+            ) {
+                setCollapsed((collapsedState) => {
+                    collapsedState[activeIndex] = !collapsedState[activeIndex]
+                    return [...collapsedState]
+                })
+            } else if (collapsedState[activeIndex - 1]) {
                 setCollapsed((collapsedState) => {
                     collapsedState[activeIndex - 1] =
                         !collapsedState[activeIndex - 1]
@@ -168,14 +178,14 @@ const HOCForAddingAnimationFunctionalityPage = ({
                     activeIndex - 1,
                     true,
                     collapsedState.map((item, arrayIndx) =>
-                        arrayIndx == activeIndex - 1 ? !item : item,
+                        arrayIndx === activeIndex - 1 ? !item : item,
                     ),
                 )
             }
 
             return true
         }
-    }, [activeIndex, callAnimated, collapsedState])
+    }, [activeIndex, callAnimated, collapsedState, data.length])
 
     React.useEffect(() => {
         const keyboardWillHideListener = Keyboard.addListener(
@@ -210,7 +220,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
             const isLocationInRange =
                 stopLocation >= startLocation &&
                 stopLocation <
-                    (isItemCollapsed || index == data.length - 1
+                    (isItemCollapsed || index === data.length - 1
                         ? endLocation
                         : endLocation - 250)
             if (isLocationInRange) {
@@ -241,7 +251,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
             ref={animatedRef}
             onMomentumScrollEnd={({ nativeEvent }) => {
                 console.log(nativeEvent.contentOffset)
-                if (allowFunctionCall.current && activeIndex != data.length) {
+                if (allowFunctionCall.current) {
                     allowFunctionCall.current = false
                     runOnJS(deterMineCurrentActiveIndex)(nativeEvent)
                     setTimeout(() => {

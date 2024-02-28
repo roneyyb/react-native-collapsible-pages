@@ -43,11 +43,12 @@ const useAnimatedShiftWrappers = ({
         } else {
             firstTime.current = false
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         changeAnimationTrigger,
-        animationOpenHeight,
-        animationClosedHeight,
-        animatedViewHeightTo,
+        // animationOpenHeight,
+        // animationClosedHeight,
+        // animatedViewHeightTo,
     ])
 
     const containerAnimatedStyle = useAnimatedStyle(

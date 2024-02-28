@@ -14,7 +14,7 @@ const PrimaryView = ({
     return (
         <View
             style={{
-                height: 600,
+                height: 750,
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: backgroundColor,
@@ -65,7 +65,7 @@ export default function App() {
             secondaryView: (props: any) => (
                 <SecondaryView {...props} backgroundColor="red" />
             ),
-            animationOpeningHeight: 600,
+            animationOpeningHeight: 750,
             animationClosingHeight: 200,
         },
         {
@@ -75,7 +75,7 @@ export default function App() {
             secondaryView: (props: any) => (
                 <SecondaryView {...props} backgroundColor="yellow" />
             ),
-            animationOpeningHeight: 600,
+            animationOpeningHeight: 750,
             animationClosingHeight: 200,
         },
         {
@@ -85,7 +85,7 @@ export default function App() {
             secondaryView: (props: any) => (
                 <SecondaryView {...props} backgroundColor="red" />
             ),
-            animationOpeningHeight: 600,
+            animationOpeningHeight: 750,
             animationClosingHeight: 200,
         },
     ]
