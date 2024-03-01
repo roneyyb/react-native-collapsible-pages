@@ -76,7 +76,7 @@ const PrimaryView = ({
             >
                 <ButtonPressableWithText
                     buttonStyle={{
-                        height: '40%',
+                        height: 50,
                         width: '100%',
                         backgroundColor: '#5498c9',
                         elevation: 10,

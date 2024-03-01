@@ -38,7 +38,7 @@ const SecondaryView = ({
                 source={{
                     uri: image,
                 }}
-                style={{ height: 100, width: 100, borderRadius: 10 }}
+                style={{ height: '100%', aspectRatio: 1, borderRadius: 10 }}
             />
 
             <View

@@ -249,6 +249,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
         <Animated.ScrollView
             nestedScrollEnabled={true}
             ref={animatedRef}
+            //contentContainerStyle={{ flex: 1 }}
             onMomentumScrollEnd={({ nativeEvent }) => {
                 console.log(nativeEvent.contentOffset)
                 if (allowFunctionCall.current) {

@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import data, { type IYogaData } from './screens/collapsable-list/data'
 import PrimaryViewN from './screens/collapsable-list/views/PrimaryView'
 import SecondaryViewN from './screens/collapsable-list/views/SecondaryView'
+import { StatusBar } from 'react-native'
 
 export default function App() {
     const views = data.map((item: IYogaData) => ({
@@ -21,7 +22,11 @@ export default function App() {
 
     return (
         <GestureHandlerRootView
-            style={{ flex: 1, marginTop: 40, backgroundColor: '#ffffff33' }}
+            style={{
+                flex: 1,
+                marginTop: StatusBar.currentHeight,
+                backgroundColor: '#ffffff33',
+            }}
         >
             <HOC
                 data={views}

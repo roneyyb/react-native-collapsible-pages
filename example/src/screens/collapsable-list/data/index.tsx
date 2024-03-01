@@ -1,3 +1,7 @@
+import { Dimensions } from 'react-native'
+
+const WINDOW_HEIGHT = Dimensions.get('window').height
+
 export interface IYogaData {
     stepDetails: {
         step: number
@@ -24,14 +28,14 @@ const data: IYogaData[] = [
             image: 'https://source.unsplash.com/800x600/?landscape',
         },
         viewDetails: {
-            animationOpeningHeight: 730,
+            animationOpeningHeight: WINDOW_HEIGHT,
             animationClosingHeight: 150,
         },
     },
     {
         stepDetails: {
             step: 2,
-            title: 'How to be mindful',
+            title: 'Emotional Support',
             by: 'Apple Mehmud',
             duration: '8-10 min',
             description:
@@ -39,14 +43,14 @@ const data: IYogaData[] = [
             image: 'https://source.unsplash.com/800x600/?nature',
         },
         viewDetails: {
-            animationOpeningHeight: 730,
+            animationOpeningHeight: WINDOW_HEIGHT,
             animationClosingHeight: 150,
         },
     },
     {
         stepDetails: {
             step: 3,
-            title: 'How to be mindful',
+            title: 'Sleep like a baby',
             by: 'Apple Mehmud',
             duration: '8-10 min',
             description:
@@ -54,7 +58,7 @@ const data: IYogaData[] = [
             image: 'https://source.unsplash.com/800x600/?abstract',
         },
         viewDetails: {
-            animationOpeningHeight: 730,
+            animationOpeningHeight: WINDOW_HEIGHT,
             animationClosingHeight: 150,
         },
     },
@@ -62,7 +66,7 @@ const data: IYogaData[] = [
     {
         stepDetails: {
             step: 4,
-            title: 'How to be mindful',
+            title: 'Yeah you are done',
             by: 'Apple Mehmud',
             duration: '8-10 min',
             description:
@@ -70,7 +74,37 @@ const data: IYogaData[] = [
             image: 'https://source.unsplash.com/800x600/?pattern',
         },
         viewDetails: {
-            animationOpeningHeight: 730,
+            animationOpeningHeight: WINDOW_HEIGHT,
+            animationClosingHeight: 150,
+        },
+    },
+    {
+        stepDetails: {
+            step: 5,
+            title: 'Yeah you are done',
+            by: 'Apple Mehmud',
+            duration: '8-10 min',
+            description:
+                'Him boisterous invitation dispatched had connection inhabiting projection. By mutual an mr danger garret edward an. Diverted as strictly exertion addition no disposal by stanhill. This call wife do so sigh no gate felt. You and abode spite order get. Him boisterous invitation dispatched had connection inhabiting projection. Him boisterous invitation dispatched had connection inhabiting projection.',
+            image: 'https://source.unsplash.com/800x600/?cityscape',
+        },
+        viewDetails: {
+            animationOpeningHeight: WINDOW_HEIGHT,
+            animationClosingHeight: 150,
+        },
+    },
+    {
+        stepDetails: {
+            step: 6,
+            title: 'Yeah you are done',
+            by: 'Apple Mehmud',
+            duration: '8-10 min',
+            description:
+                'Him boisterous invitation dispatched had connection inhabiting projection. By mutual an mr danger garret edward an. Diverted as strictly exertion addition no disposal by stanhill. This call wife do so sigh no gate felt. You and abode spite order get. Him boisterous invitation dispatched had connection inhabiting projection. Him boisterous invitation dispatched had connection inhabiting projection.',
+            image: 'https://source.unsplash.com/800x600/?animal',
+        },
+        viewDetails: {
+            animationOpeningHeight: WINDOW_HEIGHT,
             animationClosingHeight: 150,
         },
     },
