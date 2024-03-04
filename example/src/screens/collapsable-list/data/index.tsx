@@ -2,15 +2,16 @@ import { Dimensions } from 'react-native'
 
 const WINDOW_HEIGHT = Dimensions.get('window').height
 
+export interface IStepDetails {
+    step: number
+    title: string
+    by: string
+    duration: string
+    description: string
+    image: string
+}
 export interface IYogaData {
-    stepDetails: {
-        step: number
-        title: string
-        by: string
-        duration: string
-        description: string
-        image: string
-    }
+    stepDetails: IStepDetails
     viewDetails: {
         animationOpeningHeight: number
         animationClosingHeight: number

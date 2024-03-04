@@ -15,7 +15,7 @@ export interface IItemsListAnimation {
 interface IHOCForAddingAnimationFunctionalityPage {
     data: IItemsListAnimation[]
 
-    callBack: Function
+    callBack: (props: any, index: number) => void
     activeIndex: number
     setActiveIndex: Function
 }
@@ -37,12 +37,9 @@ const HOCForAddingAnimationFunctionalityPage = ({
     // Here collapsed is previous state
     const callAnimated = React.useCallback(
         (index: number, collapsed: boolean, collapsedState: boolean[]) => {
-            console.log(index, collapsed, collapsedState, 'DaTA')
             let nextOpenIndex = collapsedState.findIndex(
                 (item, currentItemIndex) => currentItemIndex > index && !item,
             )
-
-            console.log(nextOpenIndex, 'nextOpenINdex')
 
             nextOpenIndex =
                 nextOpenIndex === -1 ? data.length - 1 : nextOpenIndex
@@ -231,8 +228,9 @@ const HOCForAddingAnimationFunctionalityPage = ({
                             currentItemIndex > index && !item,
                     )
                 }
+                nextIndex = nextIndex === -1 ? data.length - 1 : nextIndex
                 setActiveIndex(nextIndex)
-                console.log(nextIndex, 'nextIN')
+
                 break
             } else {
                 startLocation =
@@ -251,7 +249,6 @@ const HOCForAddingAnimationFunctionalityPage = ({
             ref={animatedRef}
             //contentContainerStyle={{ flex: 1 }}
             onMomentumScrollEnd={({ nativeEvent }) => {
-                console.log(nativeEvent.contentOffset)
                 if (allowFunctionCall.current) {
                     allowFunctionCall.current = false
                     runOnJS(deterMineCurrentActiveIndex)(nativeEvent)
@@ -279,25 +276,19 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                 key={index}
                                 primaryView={primaryView({
                                     onNext: (props: any) => {
-                                        // if (data.length - 1 === index) {
-                                        //     onChangeState(0, true)
-                                        //     return
-                                        // }
                                         setStep((prev) => {
                                             if (step < index + 2)
                                                 return index + 2
                                             return prev
                                         })
-                                        callBack(props)
-                                        // InteractionManager.runAfterInteractions(() => {
+                                        callBack(props, index)
                                         onChangeState(index)
-                                        // })
                                     },
                                     active: !collapsedState[index],
                                 })}
                                 secondaryView={secondaryView({
                                     onNext: (props: any) => {
-                                        callBack(props)
+                                        callBack(props, index)
                                         onChangeState(index)
                                     },
                                     active: !collapsedState[index],
@@ -326,9 +317,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                     },
                 )}
         </Animated.ScrollView>
-        // <View />
     )
-    // return <View style={{ flex: 1, backgroundColor: 'green' }} />
 }
 
 export default HOCForAddingAnimationFunctionalityPage

@@ -2,11 +2,10 @@ import { View, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import TextNormal from '../../../component/text/TextNormal'
 import ButtonPressableWithText from '../../../component/button/ButtonPressableWithText'
-import type { IYogaData } from '../data'
+import type { IStepDetails } from '../data'
 
-interface PrimaryViewProps extends IYogaData {
-    uri: string
-    description: string
+interface PrimaryViewProps {
+    stepDetails: IStepDetails
     onNext: Function
 }
 
