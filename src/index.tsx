@@ -2,19 +2,17 @@ import React, { useState } from 'react'
 import { BackHandler, Keyboard } from 'react-native'
 import Animated, { runOnJS, useAnimatedRef } from 'react-native-reanimated'
 import HOCForWrappingComponentWithAnimation from './hofc/HOFC_ForWrappingComponentWithAnimation'
-import { AnimatedScrollView } from 'react-native-reanimated/lib/typescript/reanimated2/component/ScrollView'
 
 export interface IItemsListAnimation {
     primaryView: (props: any) => React.ReactElement
     secondaryView: (props: any) => React.ReactElement
 
-    animationClosingHeight: number
-    animationOpeningHeight: number
+    secondaryViewHeight: number
+    primaryViewHeight: number
 }
 
 interface IHOCForAddingAnimationFunctionalityPage {
     data: IItemsListAnimation[]
-
     callBack: (props: any, index: number) => void
     activeIndex: number
     setActiveIndex: Function
@@ -33,14 +31,14 @@ const HOCForAddingAnimationFunctionalityPage = ({
     onPressHardwareBack,
 }: IHOCForAddingAnimationFunctionalityPage) => {
     //console.log('data is here', callBack, activeIndex, setActiveIndex)
-    const animatedRef = useAnimatedRef<AnimatedScrollView>()
+    const animatedRef = useAnimatedRef<Animated.ScrollView>()
     const [step, setStep] = useState(1)
 
     const [collapsedState, setCollapsed] = React.useState(
         initialCollapsedState || new Array(data.length).fill(false),
     )
 
-    // Here collapsed is previous state
+    // Here collapsed is previous state and collapsedState is pervious collapsed State array
     const callAnimated = React.useCallback(
         (index: number, collapsed: boolean, collapsedState: boolean[]) => {
             let nextOpenIndex = collapsedState.findIndex(
@@ -71,47 +69,46 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                     (pv, cv, index1) =>
                                         pv +
                                         (collapsedState[index1]
-                                            ? cv.animationClosingHeight
+                                            ? cv.secondaryViewHeight
                                             : index1 === 0
-                                              ? cv.animationOpeningHeight
-                                              : cv.animationOpeningHeight -
+                                              ? cv.primaryViewHeight
+                                              : cv.primaryViewHeight -
                                                 (data?.[index1 - 1]
-                                                    ?.animationClosingHeight ||
+                                                    ?.secondaryViewHeight ||
                                                     0) /
                                                     2),
                                     0,
                                 ) +
                             (!collapsedState?.[index - 1]
                                 ? index - 1 === 0
-                                    ? data[index - 1]?.animationOpeningHeight ||
-                                      0
-                                    : data[index - 1]?.animationOpeningHeight ||
+                                    ? data[index - 1]?.primaryViewHeight || 0
+                                    : data[index - 1]?.primaryViewHeight ||
                                       0 -
                                           (data[index - 2]
-                                              ?.animationClosingHeight || 0) /
+                                              ?.secondaryViewHeight || 0) /
                                               2
-                                : (data[index - 1]?.animationClosingHeight ||
-                                      0) / 2)
+                                : (data[index - 1]?.secondaryViewHeight || 0) /
+                                  2)
                     } else {
                         nextY =
                             index === 0 && itemOpenGap === 1
-                                ? (data[0] || { animationClosingHeight: 0 })
-                                      .animationClosingHeight * 0.5
+                                ? (data[0] || { secondaryViewHeight: 0 })
+                                      .secondaryViewHeight * 0.5
                                 : data
                                       .slice(0, nextOpenIndex - 1)
                                       .reduce(
                                           (pv, cv, index2) =>
                                               pv +
                                               (collapsedState[index2]
-                                                  ? cv.animationClosingHeight
-                                                  : cv.animationOpeningHeight),
+                                                  ? cv.secondaryViewHeight
+                                                  : cv.primaryViewHeight),
                                           0,
                                       ) +
                                   ((
                                       data[nextOpenIndex - 1] || {
-                                          animationClosingHeight: 0,
+                                          secondaryViewHeight: 0,
                                       }
-                                  ).animationClosingHeight || 0) /
+                                  ).secondaryViewHeight || 0) /
                                       2
                     }
 
@@ -140,7 +137,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
             (item, currentItemIndex) => currentItemIndex > index && !item,
         )
 
-        if (!collapsedState[index] && nextOpenIndex == -1) {
+        if (!collapsedState[index] && nextOpenIndex === -1) {
             setCollapsed(() => {
                 return data.map(() => true)
             })
@@ -224,8 +221,8 @@ const HOCForAddingAnimationFunctionalityPage = ({
             const endLocation =
                 startLocation +
                 (isItemCollapsed
-                    ? item?.animationClosingHeight || 0
-                    : item?.animationOpeningHeight || 0)
+                    ? item?.secondaryViewHeight || 0
+                    : item?.primaryViewHeight || 0)
             const isLocationInRange =
                 stopLocation >= startLocation &&
                 stopLocation <
@@ -276,8 +273,8 @@ const HOCForAddingAnimationFunctionalityPage = ({
                     {
                         primaryView,
                         secondaryView,
-                        animationClosingHeight,
-                        animationOpeningHeight,
+                        secondaryViewHeight,
+                        primaryViewHeight,
                     },
                     index,
                 ) => {
@@ -302,13 +299,13 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                 },
                                 active: !collapsedState[index],
                             })}
-                            animationClosedHeight={animationClosingHeight}
+                            animationClosedHeight={secondaryViewHeight}
                             animationOpenHeight={
                                 index === 0
-                                    ? animationOpeningHeight
-                                    : animationOpeningHeight -
-                                      (data[index - 1]
-                                          ?.animationClosingHeight || 0) /
+                                    ? primaryViewHeight
+                                    : primaryViewHeight -
+                                      (data[index - 1]?.secondaryViewHeight ||
+                                          0) /
                                           2
                             }
                             changeAnimationTrigger={collapsedState[index]}

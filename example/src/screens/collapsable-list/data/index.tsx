@@ -13,8 +13,8 @@ export interface IStepDetails {
 export interface IYogaData {
     stepDetails: IStepDetails
     viewDetails: {
-        animationOpeningHeight: number
-        animationClosingHeight: number
+        primaryViewHeight: number
+        secondaryViewHeight: number
     }
 }
 const data: IYogaData[] = [
@@ -29,8 +29,8 @@ const data: IYogaData[] = [
             image: 'https://source.unsplash.com/800x600/?landscape',
         },
         viewDetails: {
-            animationOpeningHeight: WINDOW_HEIGHT,
-            animationClosingHeight: 150,
+            primaryViewHeight: WINDOW_HEIGHT,
+            secondaryViewHeight: 150,
         },
     },
     {
@@ -44,8 +44,8 @@ const data: IYogaData[] = [
             image: 'https://source.unsplash.com/800x600/?nature',
         },
         viewDetails: {
-            animationOpeningHeight: WINDOW_HEIGHT,
-            animationClosingHeight: 150,
+            primaryViewHeight: WINDOW_HEIGHT,
+            secondaryViewHeight: 150,
         },
     },
     {
@@ -59,8 +59,8 @@ const data: IYogaData[] = [
             image: 'https://source.unsplash.com/800x600/?abstract',
         },
         viewDetails: {
-            animationOpeningHeight: WINDOW_HEIGHT,
-            animationClosingHeight: 150,
+            primaryViewHeight: WINDOW_HEIGHT,
+            secondaryViewHeight: 150,
         },
     },
 
@@ -75,8 +75,8 @@ const data: IYogaData[] = [
             image: 'https://source.unsplash.com/800x600/?pattern',
         },
         viewDetails: {
-            animationOpeningHeight: WINDOW_HEIGHT,
-            animationClosingHeight: 150,
+            primaryViewHeight: WINDOW_HEIGHT,
+            secondaryViewHeight: 150,
         },
     },
     {
@@ -90,8 +90,8 @@ const data: IYogaData[] = [
             image: 'https://source.unsplash.com/800x600/?cityscape',
         },
         viewDetails: {
-            animationOpeningHeight: WINDOW_HEIGHT,
-            animationClosingHeight: 150,
+            primaryViewHeight: WINDOW_HEIGHT,
+            secondaryViewHeight: 150,
         },
     },
     {
@@ -105,8 +105,8 @@ const data: IYogaData[] = [
             image: 'https://source.unsplash.com/800x600/?animal',
         },
         viewDetails: {
-            animationOpeningHeight: WINDOW_HEIGHT,
-            animationClosingHeight: 150,
+            primaryViewHeight: WINDOW_HEIGHT,
+            secondaryViewHeight: 150,
         },
     },
 ]
