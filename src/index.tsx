@@ -18,6 +18,9 @@ interface IHOCForAddingAnimationFunctionalityPage {
     callBack: (props: any, index: number) => void
     activeIndex: number
     setActiveIndex: Function
+    initialCollapsedState?: boolean[]
+    showAll?: boolean
+    onPressHardwareBack?: Function
 }
 
 const HOCForAddingAnimationFunctionalityPage = ({
@@ -25,13 +28,16 @@ const HOCForAddingAnimationFunctionalityPage = ({
     callBack,
     activeIndex,
     setActiveIndex,
+    showAll,
+    initialCollapsedState,
+    onPressHardwareBack,
 }: IHOCForAddingAnimationFunctionalityPage) => {
     //console.log('data is here', callBack, activeIndex, setActiveIndex)
     const animatedRef = useAnimatedRef<AnimatedScrollView>()
     const [step, setStep] = useState(1)
 
     const [collapsedState, setCollapsed] = React.useState(
-        new Array(data.length).fill(false),
+        initialCollapsedState || new Array(data.length).fill(false),
     )
 
     // Here collapsed is previous state
@@ -47,11 +53,6 @@ const HOCForAddingAnimationFunctionalityPage = ({
             else {
                 setActiveIndex(index)
             }
-
-            // if (nextOpenIndex === data.length - 1 && !collapsed) {
-            //     animatedRef.current?.scrollTo({ animated: true, y: 0 })
-            //     return
-            // }
 
             const itemOpenGap = nextOpenIndex - index
             if (index === data.length - 1 && collapsed) {
@@ -152,37 +153,48 @@ const HOCForAddingAnimationFunctionalityPage = ({
     }
 
     const backAction = React.useCallback(() => {
-        console.log('Active index', activeIndex, collapsedState)
-        if (activeIndex === 0) {
-            return false
-        } else {
-            if (
-                activeIndex === data.length - 1 &&
-                collapsedState[activeIndex]
-            ) {
-                setCollapsed((collapsedState) => {
-                    collapsedState[activeIndex] = !collapsedState[activeIndex]
-                    return [...collapsedState]
-                })
-            } else if (collapsedState[activeIndex - 1]) {
-                setCollapsed((collapsedState) => {
-                    collapsedState[activeIndex - 1] =
-                        !collapsedState[activeIndex - 1]
-                    return [...collapsedState]
-                })
-            } else {
-                callAnimated(
-                    activeIndex - 1,
-                    true,
-                    collapsedState.map((item, arrayIndx) =>
-                        arrayIndx === activeIndex - 1 ? !item : item,
-                    ),
-                )
-            }
-
+        if (onPressHardwareBack) {
+            onPressHardwareBack()
             return true
+        } else {
+            if (activeIndex === 0) {
+                return false
+            } else {
+                if (
+                    activeIndex === data.length - 1 &&
+                    collapsedState[activeIndex]
+                ) {
+                    setCollapsed((collapsedState) => {
+                        collapsedState[activeIndex] =
+                            !collapsedState[activeIndex]
+                        return [...collapsedState]
+                    })
+                } else if (collapsedState[activeIndex - 1]) {
+                    setCollapsed((collapsedState) => {
+                        collapsedState[activeIndex - 1] =
+                            !collapsedState[activeIndex - 1]
+                        return [...collapsedState]
+                    })
+                } else {
+                    callAnimated(
+                        activeIndex - 1,
+                        true,
+                        collapsedState.map((item, arrayIndx) =>
+                            arrayIndx === activeIndex - 1 ? !item : item,
+                        ),
+                    )
+                }
+
+                return true
+            }
         }
-    }, [activeIndex, callAnimated, collapsedState, data.length])
+    }, [
+        activeIndex,
+        callAnimated,
+        collapsedState,
+        data.length,
+        onPressHardwareBack,
+    ])
 
     React.useEffect(() => {
         const keyboardWillHideListener = Keyboard.addListener(
@@ -219,7 +231,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                 stopLocation <
                     (isItemCollapsed || index === data.length - 1
                         ? endLocation
-                        : endLocation - 250)
+                        : endLocation - (endLocation - startLocation) * 0.3)
             if (isLocationInRange) {
                 let nextIndex = index
                 if (isItemCollapsed) {
@@ -236,7 +248,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                 startLocation =
                     isItemCollapsed || index === data.length - 1
                         ? endLocation
-                        : endLocation - 250
+                        : endLocation - (endLocation - startLocation) * 0.3
             }
         }
     }
@@ -259,63 +271,60 @@ const HOCForAddingAnimationFunctionalityPage = ({
             }}
             scrollEnabled={step > 1}
         >
-            {data
-                .slice(0, step)
-                .map(
-                    (
-                        {
-                            primaryView,
-                            secondaryView,
-                            animationClosingHeight,
-                            animationOpeningHeight,
-                        },
-                        index,
-                    ) => {
-                        return (
-                            <HOCForWrappingComponentWithAnimation
-                                key={index}
-                                primaryView={primaryView({
-                                    onNext: (props: any) => {
-                                        setStep((prev) => {
-                                            if (step < index + 2)
-                                                return index + 2
-                                            return prev
-                                        })
-                                        callBack(props, index)
-                                        onChangeState(index)
-                                    },
-                                    active: !collapsedState[index],
-                                })}
-                                secondaryView={secondaryView({
-                                    onNext: (props: any) => {
-                                        callBack(props, index)
-                                        onChangeState(index)
-                                    },
-                                    active: !collapsedState[index],
-                                })}
-                                animationClosedHeight={animationClosingHeight}
-                                animationOpenHeight={
-                                    index === 0
-                                        ? animationOpeningHeight
-                                        : animationOpeningHeight -
-                                          (data[index - 1]
-                                              ?.animationClosingHeight || 0) /
-                                              2
-                                }
-                                changeAnimationTrigger={collapsedState[index]}
-                                callBackForOtherLogic={() => {
-                                    callAnimated(
-                                        index,
-                                        !collapsedState[index],
-                                        collapsedState.map((item, arrayIndx) =>
-                                            arrayIndx === index ? !item : item,
-                                        ),
-                                    )
-                                }}
-                            />
-                        )
+            {(showAll ? data : data.slice(0, step)).map(
+                (
+                    {
+                        primaryView,
+                        secondaryView,
+                        animationClosingHeight,
+                        animationOpeningHeight,
                     },
-                )}
+                    index,
+                ) => {
+                    return (
+                        <HOCForWrappingComponentWithAnimation
+                            key={index}
+                            primaryView={primaryView({
+                                onNext: (props: any) => {
+                                    setStep((prev) => {
+                                        if (step < index + 2) return index + 2
+                                        return prev
+                                    })
+                                    callBack(props, index)
+                                    onChangeState(index)
+                                },
+                                active: !collapsedState[index],
+                            })}
+                            secondaryView={secondaryView({
+                                onNext: (props: any) => {
+                                    callBack(props, index)
+                                    onChangeState(index)
+                                },
+                                active: !collapsedState[index],
+                            })}
+                            animationClosedHeight={animationClosingHeight}
+                            animationOpenHeight={
+                                index === 0
+                                    ? animationOpeningHeight
+                                    : animationOpeningHeight -
+                                      (data[index - 1]
+                                          ?.animationClosingHeight || 0) /
+                                          2
+                            }
+                            changeAnimationTrigger={collapsedState[index]}
+                            callBackForOtherLogic={() => {
+                                callAnimated(
+                                    index,
+                                    !collapsedState[index],
+                                    collapsedState.map((item, arrayIndx) =>
+                                        arrayIndx === index ? !item : item,
+                                    ),
+                                )
+                            }}
+                        />
+                    )
+                },
+            )}
         </Animated.ScrollView>
     )
 }
