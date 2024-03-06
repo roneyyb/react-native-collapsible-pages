@@ -45,6 +45,23 @@ const HOCForAddingAnimationFunctionalityPage = ({
         initialCollapsedState || new Array(data.length).fill(false),
     )
 
+    const giveSecondHeightValue = React.useCallback(
+        (index: number) => {
+            return (
+                (data?.[index]?.secondaryViewHeight || 0) *
+                    showPreviousSecodaryViewThreshold || 0
+            )
+        },
+        [data, showPreviousSecodaryViewThreshold],
+    )
+
+    const getPrimaryHeight = React.useCallback(
+        (index: number) => {
+            return data[index]?.primaryViewHeight || 0
+        },
+        [data],
+    )
+
     // Here collapsed is previous state and collapsedState is pervious collapsed State array
     const callAnimated = React.useCallback(
         (index: number, collapsed: boolean, collapsedState: boolean[]) => {
@@ -83,27 +100,18 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                             : index1 === 0
                                               ? cv.primaryViewHeight
                                               : cv.primaryViewHeight -
-                                                (data?.[index1 - 1]
-                                                    ?.secondaryViewHeight ||
-                                                    0) *
-                                                    showPreviousSecodaryViewThreshold),
+                                                giveSecondHeightValue(
+                                                    index1 - 1,
+                                                )),
                                     0,
                                 ) +
                             (!collapsedState?.[index - 1]
                                 ? index - 1 === 0
-                                    ? (data[index - 1]?.primaryViewHeight ||
-                                          0) -
-                                      (data[index - 1]?.secondaryViewHeight ||
-                                          0) *
-                                          showPreviousSecodaryViewThreshold
-                                    : (data[index - 1]?.primaryViewHeight ||
-                                          0) -
-                                      ((data[index - 2]?.secondaryViewHeight ||
-                                          0) *
-                                          showPreviousSecodaryViewThreshold +
-                                          (data[index - 1]
-                                              ?.secondaryViewHeight || 0) *
-                                              showPreviousSecodaryViewThreshold)
+                                    ? getPrimaryHeight(index - 1) -
+                                      giveSecondHeightValue(index - 1)
+                                    : getPrimaryHeight(index - 1) -
+                                      (giveSecondHeightValue(index - 2) +
+                                          giveSecondHeightValue(index - 1))
                                 : (data[index - 1]?.secondaryViewHeight || 0) *
                                   (1 - showPreviousSecodaryViewThreshold))
 
@@ -124,10 +132,9 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                                   : index1 === 0
                                                     ? cv.primaryViewHeight
                                                     : cv.primaryViewHeight -
-                                                      (data?.[index1 - 1]
-                                                          ?.secondaryViewHeight ||
-                                                          0) *
-                                                          showPreviousSecodaryViewThreshold),
+                                                      giveSecondHeightValue(
+                                                          index1 - 1,
+                                                      )),
                                           0,
                                       ) +
                                   ((
@@ -147,7 +154,14 @@ const HOCForAddingAnimationFunctionalityPage = ({
                 }
             }
         },
-        [data, animatedRef, setActiveIndex, showPreviousSecodaryViewThreshold],
+        [
+            data,
+            animatedRef,
+            setActiveIndex,
+            showPreviousSecodaryViewThreshold,
+            getPrimaryHeight,
+            giveSecondHeightValue,
+        ],
     )
 
     const onChangeState = (index: number, exact = false) => {
@@ -287,6 +301,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
             onMomentumScrollEnd={({ nativeEvent }) => {
                 // allowFunctionCall logic is written as onMomentumEnd is called thrice
                 // after every momentum end
+
                 if (allowFunctionCall.current) {
                     allowFunctionCall.current = false
                     runOnJS(deterMineCurrentActiveIndex)(nativeEvent)
