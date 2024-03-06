@@ -1,6 +1,8 @@
 # react-native-collapsible-pages
 
-Collapsible pages on the same screen with primary and secodary view
+Collapsible pages on the same screen with primary and secodary view. This is a complex component where you can provide primary and secondary view.
+Where primaryView transition to seondaryView and vice versa. Hardware back and Scrolling is handled as well. You can provide different height in each data
+and it will internally automatically handle every thing for you.
 
 ## Installation
 
@@ -11,11 +13,12 @@ npm install react-native-collapsible-pages
 ## Usage
 
 ```js
-import { multiply } from 'react-native-collapsible-pages';
+import CollapsiblePages from 'react-native-collapsible-pages';
 
 // ...
 
-const result = await multiply(3, 7);
+Check example directory for detailed usage.
+
 ```
 
 
