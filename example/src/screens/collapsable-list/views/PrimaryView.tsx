@@ -3,10 +3,10 @@ import React from 'react'
 import TextNormal from '../../../component/text/TextNormal'
 import ButtonPressableWithText from '../../../component/button/ButtonPressableWithText'
 import type { IStepDetails } from '../data'
+import type { IViewProps } from 'react-native-collapsible-pages'
 
-interface PrimaryViewProps {
+interface PrimaryViewProps extends IViewProps {
     stepDetails: IStepDetails
-    onNext: Function
 }
 
 const PrimaryView = ({

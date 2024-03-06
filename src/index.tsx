@@ -3,9 +3,14 @@ import { BackHandler, Keyboard } from 'react-native'
 import Animated, { runOnJS, useAnimatedRef } from 'react-native-reanimated'
 import HOCForWrappingComponentWithAnimation from './hofc/HOFC_ForWrappingComponentWithAnimation'
 
+export interface IViewProps {
+    onNext: Function
+    active: boolean
+}
+
 export interface IItemsListAnimation {
-    primaryView: (props: any) => React.ReactElement
-    secondaryView: (props: any) => React.ReactElement
+    primaryView: (props: IViewProps) => React.ReactElement
+    secondaryView: (props: IViewProps) => React.ReactElement
 
     secondaryViewHeight: number
     primaryViewHeight: number

@@ -1,6 +1,9 @@
 import * as React from 'react'
 
-import HOC, { type IItemsListAnimation } from 'react-native-collapsible-pages'
+import HOC, {
+    type IItemsListAnimation,
+    type IViewProps,
+} from 'react-native-collapsible-pages'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import data, {
     type IStepDetails,
@@ -13,13 +16,13 @@ import { StatusBar, StyleSheet } from 'react-native'
 // Define the component outside of the parent component
 const PrimaryViewWrapper =
     (rest: { activeIndex: number; stepDetails: IStepDetails }) =>
-    (props: any) => {
+    (props: IViewProps) => {
         const { stepDetails } = rest
         return <PrimaryViewN {...props} stepDetails={stepDetails} />
     }
 
 const SecondaryViewWrapper =
-    (rest: { stepDetails: IStepDetails }) => (props: any) => {
+    (rest: { stepDetails: IStepDetails }) => (props: IViewProps) => {
         const { stepDetails } = rest
         return <SecondaryViewN {...props} stepDetails={stepDetails} />
     }

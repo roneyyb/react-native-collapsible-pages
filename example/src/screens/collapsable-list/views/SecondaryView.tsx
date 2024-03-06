@@ -1,23 +1,16 @@
 import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
-import {
-    Image,
-    Pressable,
-    StyleSheet,
-    View,
-    type ViewStyle,
-} from 'react-native'
+import { Image, Pressable, StyleSheet, View } from 'react-native'
 import TextNormal from '../../../component/text/TextNormal'
-import type { IYogaData } from '../data'
 
-interface SecondaryViewProps extends IYogaData {
-    uri: string
-    containerStyle: ViewStyle
-    onNext: Function
+import type { IViewProps } from 'react-native-collapsible-pages'
+import type { IStepDetails } from '../data'
+
+interface SecondaryViewProps extends IViewProps {
+    stepDetails: IStepDetails
 }
 
 const SecondaryView = ({
-    containerStyle,
     onNext,
     stepDetails: { by, title, step, image, duration },
 }: SecondaryViewProps) => {
@@ -26,7 +19,7 @@ const SecondaryView = ({
             onPress={() => {
                 onNext()
             }}
-            style={[styles.container, containerStyle]}
+            style={[styles.container]}
         >
             <Image source={{ uri: image }} style={styles.image} />
             <View style={styles.contentContainer}>
