@@ -30,7 +30,7 @@ const data: IYogaData[] = [
         },
         viewDetails: {
             primaryViewHeight: WINDOW_HEIGHT,
-            secondaryViewHeight: 150,
+            secondaryViewHeight: 200,
         },
     },
     {
@@ -45,7 +45,7 @@ const data: IYogaData[] = [
         },
         viewDetails: {
             primaryViewHeight: WINDOW_HEIGHT,
-            secondaryViewHeight: 150,
+            secondaryViewHeight: 160,
         },
     },
     {
@@ -60,7 +60,7 @@ const data: IYogaData[] = [
         },
         viewDetails: {
             primaryViewHeight: WINDOW_HEIGHT,
-            secondaryViewHeight: 150,
+            secondaryViewHeight: 130,
         },
     },
 
@@ -76,39 +76,39 @@ const data: IYogaData[] = [
         },
         viewDetails: {
             primaryViewHeight: WINDOW_HEIGHT,
-            secondaryViewHeight: 150,
+            secondaryViewHeight: 100,
         },
     },
-    {
-        stepDetails: {
-            step: 5,
-            title: 'Yeah you are done',
-            by: 'Apple Mehmud',
-            duration: '8-10 min',
-            description:
-                'Him boisterous invitation dispatched had connection inhabiting projection. By mutual an mr danger garret edward an. Diverted as strictly exertion addition no disposal by stanhill. This call wife do so sigh no gate felt. You and abode spite order get. Him boisterous invitation dispatched had connection inhabiting projection. Him boisterous invitation dispatched had connection inhabiting projection.',
-            image: 'https://source.unsplash.com/800x600/?cityscape',
-        },
-        viewDetails: {
-            primaryViewHeight: WINDOW_HEIGHT,
-            secondaryViewHeight: 150,
-        },
-    },
-    {
-        stepDetails: {
-            step: 6,
-            title: 'Yeah you are done',
-            by: 'Apple Mehmud',
-            duration: '8-10 min',
-            description:
-                'Him boisterous invitation dispatched had connection inhabiting projection. By mutual an mr danger garret edward an. Diverted as strictly exertion addition no disposal by stanhill. This call wife do so sigh no gate felt. You and abode spite order get. Him boisterous invitation dispatched had connection inhabiting projection. Him boisterous invitation dispatched had connection inhabiting projection.',
-            image: 'https://source.unsplash.com/800x600/?animal',
-        },
-        viewDetails: {
-            primaryViewHeight: WINDOW_HEIGHT,
-            secondaryViewHeight: 150,
-        },
-    },
+    // {
+    //     stepDetails: {
+    //         step: 5,
+    //         title: 'Yeah you are done',
+    //         by: 'Apple Mehmud',
+    //         duration: '8-10 min',
+    //         description:
+    //             'Him boisterous invitation dispatched had connection inhabiting projection. By mutual an mr danger garret edward an. Diverted as strictly exertion addition no disposal by stanhill. This call wife do so sigh no gate felt. You and abode spite order get. Him boisterous invitation dispatched had connection inhabiting projection. Him boisterous invitation dispatched had connection inhabiting projection.',
+    //         image: 'https://source.unsplash.com/800x600/?cityscape',
+    //     },
+    //     viewDetails: {
+    //         primaryViewHeight: WINDOW_HEIGHT,
+    //         secondaryViewHeight: 150,
+    //     },
+    // },
+    // {
+    //     stepDetails: {
+    //         step: 6,
+    //         title: 'Yeah you are done',
+    //         by: 'Apple Mehmud',
+    //         duration: '8-10 min',
+    //         description:
+    //             'Him boisterous invitation dispatched had connection inhabiting projection. By mutual an mr danger garret edward an. Diverted as strictly exertion addition no disposal by stanhill. This call wife do so sigh no gate felt. You and abode spite order get. Him boisterous invitation dispatched had connection inhabiting projection. Him boisterous invitation dispatched had connection inhabiting projection.',
+    //         image: 'https://source.unsplash.com/800x600/?animal',
+    //     },
+    //     viewDetails: {
+    //         primaryViewHeight: WINDOW_HEIGHT,
+    //         secondaryViewHeight: 150,
+    //     },
+    // },
 ]
 
 export default data

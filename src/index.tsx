@@ -25,7 +25,7 @@ interface IHOCForAddingAnimationFunctionalityPage {
     activeViewDetectionBottomThreshold?: ZeroToOne
 }
 
-const HOCForAddingAnimationFunctionalityPage = ({
+const HOCForAddingAnimationFunctionality = ({
     data,
     callBack,
     activeIndex,
@@ -93,7 +93,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                             data
                                 .slice(0, index - 1)
                                 .reduce(
-                                    (pv, cv, index1) =>
+                                    (pv: any, cv: any, index1: number) =>
                                         pv +
                                         (collapsedState[index1]
                                             ? cv.secondaryViewHeight
@@ -125,7 +125,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                 : data
                                       .slice(0, nextOpenIndex - 1)
                                       .reduce(
-                                          (pv, cv, index1) =>
+                                          (pv: any, cv: any, index1: number) =>
                                               pv +
                                               (collapsedState[index1]
                                                   ? cv.secondaryViewHeight
@@ -297,7 +297,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
         <Animated.ScrollView
             nestedScrollEnabled={true}
             ref={animatedRef}
-            //contentContainerStyle={{ flex: 1 }}
+            contentContainerStyle={{ paddingBottom: 30 }}
             onMomentumScrollEnd={({ nativeEvent }) => {
                 // allowFunctionCall logic is written as onMomentumEnd is called thrice
                 // after every momentum end
@@ -373,4 +373,4 @@ const HOCForAddingAnimationFunctionalityPage = ({
     )
 }
 
-export default HOCForAddingAnimationFunctionalityPage
+export default HOCForAddingAnimationFunctionality
