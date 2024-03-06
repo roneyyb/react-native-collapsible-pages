@@ -18,7 +18,7 @@ export interface IItemsListAnimation {
 
 type ZeroToOne = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1
 
-interface IHOCForAddingAnimationFunctionalityPage {
+interface ICollapsiblePages {
     data: IItemsListAnimation[]
     callBack: (props: any, index: number) => void
     activeIndex: number
@@ -30,7 +30,7 @@ interface IHOCForAddingAnimationFunctionalityPage {
     activeViewDetectionBottomThreshold?: ZeroToOne
 }
 
-const HOCForAddingAnimationFunctionality = ({
+const CollapsiblePages = ({
     data,
     callBack,
     activeIndex,
@@ -40,7 +40,7 @@ const HOCForAddingAnimationFunctionality = ({
     onPressHardwareBack,
     showPreviousSecodaryViewThreshold = 0.5,
     activeViewDetectionBottomThreshold = 0.3,
-}: IHOCForAddingAnimationFunctionalityPage) => {
+}: ICollapsiblePages) => {
     //console.log('data is here', callBack, activeIndex, setActiveIndex)
 
     const animatedRef = useAnimatedRef<Animated.ScrollView>()
@@ -378,4 +378,4 @@ const HOCForAddingAnimationFunctionality = ({
     )
 }
 
-export default HOCForAddingAnimationFunctionality
+export default CollapsiblePages
