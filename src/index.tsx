@@ -11,6 +11,8 @@ export interface IItemsListAnimation {
     primaryViewHeight: number
 }
 
+type ZeroToOne = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1
+
 interface IHOCForAddingAnimationFunctionalityPage {
     data: IItemsListAnimation[]
     callBack: (props: any, index: number) => void
@@ -19,6 +21,8 @@ interface IHOCForAddingAnimationFunctionalityPage {
     initialCollapsedState?: boolean[]
     showAll?: boolean
     onPressHardwareBack?: Function
+    secondaryViewSnapThresholdForNextView: ZeroToOne
+    activeIndexThersholdDetection: ZeroToOne
 }
 
 const HOCForAddingAnimationFunctionalityPage = ({
@@ -29,8 +33,11 @@ const HOCForAddingAnimationFunctionalityPage = ({
     showAll,
     initialCollapsedState,
     onPressHardwareBack,
+    secondaryViewSnapThresholdForNextView = 0.5,
+    activeIndexThersholdDetection = 0.3,
 }: IHOCForAddingAnimationFunctionalityPage) => {
     //console.log('data is here', callBack, activeIndex, setActiveIndex)
+
     const animatedRef = useAnimatedRef<Animated.ScrollView>()
     const [step, setStep] = useState(1)
 
@@ -41,9 +48,12 @@ const HOCForAddingAnimationFunctionalityPage = ({
     // Here collapsed is previous state and collapsedState is pervious collapsed State array
     const callAnimated = React.useCallback(
         (index: number, collapsed: boolean, collapsedState: boolean[]) => {
+            console.log(index, collapsed, collapsedState, 'Collapsed State')
             let nextOpenIndex = collapsedState.findIndex(
                 (item, currentItemIndex) => currentItemIndex > index && !item,
             )
+
+            console.log(nextOpenIndex, 'nextOpenIndex')
 
             nextOpenIndex =
                 nextOpenIndex === -1 ? data.length - 1 : nextOpenIndex
@@ -75,44 +85,61 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                               : cv.primaryViewHeight -
                                                 (data?.[index1 - 1]
                                                     ?.secondaryViewHeight ||
-                                                    0) /
-                                                    2),
+                                                    0) *
+                                                    secondaryViewSnapThresholdForNextView),
                                     0,
                                 ) +
                             (!collapsedState?.[index - 1]
                                 ? index - 1 === 0
-                                    ? data[index - 1]?.primaryViewHeight || 0
-                                    : data[index - 1]?.primaryViewHeight ||
-                                      0 -
-                                          (data[index - 2]
-                                              ?.secondaryViewHeight || 0) /
-                                              2
-                                : (data[index - 1]?.secondaryViewHeight || 0) /
-                                  2)
+                                    ? (data[index - 1]?.primaryViewHeight ||
+                                          0) -
+                                      (data[index - 1]?.secondaryViewHeight ||
+                                          0) *
+                                          secondaryViewSnapThresholdForNextView
+                                    : (data[index - 1]?.primaryViewHeight ||
+                                          0) -
+                                      ((data[index - 2]?.secondaryViewHeight ||
+                                          0) *
+                                          secondaryViewSnapThresholdForNextView +
+                                          (data[index - 1]
+                                              ?.secondaryViewHeight || 0) *
+                                              secondaryViewSnapThresholdForNextView)
+                                : (data[index - 1]?.secondaryViewHeight || 0) *
+                                  (1 - secondaryViewSnapThresholdForNextView))
+
+                        // nextY -= data[index - 1]?.secondaryViewHeight || 0
                     } else {
                         nextY =
                             index === 0 && itemOpenGap === 1
                                 ? (data[0] || { secondaryViewHeight: 0 })
-                                      .secondaryViewHeight * 0.5
+                                      .secondaryViewHeight *
+                                  (1 - secondaryViewSnapThresholdForNextView)
                                 : data
                                       .slice(0, nextOpenIndex - 1)
                                       .reduce(
-                                          (pv, cv, index2) =>
+                                          (pv, cv, index1) =>
                                               pv +
-                                              (collapsedState[index2]
+                                              (collapsedState[index1]
                                                   ? cv.secondaryViewHeight
-                                                  : cv.primaryViewHeight),
+                                                  : index1 === 0
+                                                    ? cv.primaryViewHeight
+                                                    : cv.primaryViewHeight -
+                                                      (data?.[index1 - 1]
+                                                          ?.secondaryViewHeight ||
+                                                          0) *
+                                                          secondaryViewSnapThresholdForNextView),
                                           0,
                                       ) +
                                   ((
                                       data[nextOpenIndex - 1] || {
                                           secondaryViewHeight: 0,
                                       }
-                                  ).secondaryViewHeight || 0) /
-                                      2
+                                  ).secondaryViewHeight || 0) *
+                                      (1 -
+                                          secondaryViewSnapThresholdForNextView)
                     }
 
-                    // console.log(nextY, 'nextY', collapsed, collapsedState, data)
+                    console.log(nextY, 'nextY', collapsed, collapsedState, data)
 
                     animatedRef.current?.scrollTo({
                         y: nextY,
@@ -121,7 +148,12 @@ const HOCForAddingAnimationFunctionalityPage = ({
                 }
             }
         },
-        [data, animatedRef, setActiveIndex],
+        [
+            data,
+            animatedRef,
+            setActiveIndex,
+            secondaryViewSnapThresholdForNextView,
+        ],
     )
 
     const onChangeState = (index: number, exact = false) => {
@@ -139,7 +171,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
 
         if (!collapsedState[index] && nextOpenIndex === -1) {
             setCollapsed(() => {
-                return data.map(() => true)
+                return [...data.map(() => true)]
             })
         } else {
             setCollapsed((collapsedState) => {
@@ -223,12 +255,15 @@ const HOCForAddingAnimationFunctionalityPage = ({
                 (isItemCollapsed
                     ? item?.secondaryViewHeight || 0
                     : item?.primaryViewHeight || 0)
+
+            let nextEndLocation =
+                isItemCollapsed || index === data.length - 1
+                    ? endLocation
+                    : endLocation -
+                      (endLocation - startLocation) *
+                          activeIndexThersholdDetection
             const isLocationInRange =
-                stopLocation >= startLocation &&
-                stopLocation <
-                    (isItemCollapsed || index === data.length - 1
-                        ? endLocation
-                        : endLocation - (endLocation - startLocation) * 0.3)
+                stopLocation >= startLocation && stopLocation < nextEndLocation
             if (isLocationInRange) {
                 let nextIndex = index
                 if (isItemCollapsed) {
@@ -242,22 +277,22 @@ const HOCForAddingAnimationFunctionalityPage = ({
 
                 break
             } else {
-                startLocation =
-                    isItemCollapsed || index === data.length - 1
-                        ? endLocation
-                        : endLocation - (endLocation - startLocation) * 0.3
+                startLocation = nextEndLocation
             }
         }
     }
 
     const allowFunctionCall = React.useRef(true)
 
+    console.log(collapsedState)
     return (
         <Animated.ScrollView
             nestedScrollEnabled={true}
             ref={animatedRef}
             //contentContainerStyle={{ flex: 1 }}
             onMomentumScrollEnd={({ nativeEvent }) => {
+                // allowFunctionCall logic is written as onMomentumEnd is called thrice
+                // after every momentum end
                 if (allowFunctionCall.current) {
                     allowFunctionCall.current = false
                     runOnJS(deterMineCurrentActiveIndex)(nativeEvent)
@@ -305,8 +340,8 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                     ? primaryViewHeight
                                     : primaryViewHeight -
                                       (data[index - 1]?.secondaryViewHeight ||
-                                          0) /
-                                          2
+                                          0) *
+                                          secondaryViewSnapThresholdForNextView
                             }
                             changeAnimationTrigger={collapsedState[index]}
                             callBackForOtherLogic={() => {
@@ -314,7 +349,10 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                     index,
                                     !collapsedState[index],
                                     collapsedState.map((item, arrayIndx) =>
-                                        arrayIndx === index ? !item : item,
+                                        arrayIndx === index &&
+                                        !collapsedState[index]
+                                            ? !item
+                                            : item,
                                     ),
                                 )
                             }}
