@@ -56,7 +56,7 @@ export default function App() {
                     // to set any outside props that are shared among different component
                     console.log(props, index)
                 }}
-                secondaryViewSnapThresholdForNextView={0.6}
+                showPreviousSecodaryViewThreshold={0.6}
             />
         </GestureHandlerRootView>
     )

@@ -21,8 +21,8 @@ interface IHOCForAddingAnimationFunctionalityPage {
     initialCollapsedState?: boolean[]
     showAll?: boolean
     onPressHardwareBack?: Function
-    secondaryViewSnapThresholdForNextView: ZeroToOne
-    activeIndexThersholdDetection: ZeroToOne
+    showPreviousSecodaryViewThreshold: ZeroToOne
+    activeViewDetectionBottomThreshold?: ZeroToOne
 }
 
 const HOCForAddingAnimationFunctionalityPage = ({
@@ -33,8 +33,8 @@ const HOCForAddingAnimationFunctionalityPage = ({
     showAll,
     initialCollapsedState,
     onPressHardwareBack,
-    secondaryViewSnapThresholdForNextView = 0.5,
-    activeIndexThersholdDetection = 0.3,
+    showPreviousSecodaryViewThreshold = 0.5,
+    activeViewDetectionBottomThreshold = 0.3,
 }: IHOCForAddingAnimationFunctionalityPage) => {
     //console.log('data is here', callBack, activeIndex, setActiveIndex)
 
@@ -86,7 +86,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                                 (data?.[index1 - 1]
                                                     ?.secondaryViewHeight ||
                                                     0) *
-                                                    secondaryViewSnapThresholdForNextView),
+                                                    showPreviousSecodaryViewThreshold),
                                     0,
                                 ) +
                             (!collapsedState?.[index - 1]
@@ -95,17 +95,17 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                           0) -
                                       (data[index - 1]?.secondaryViewHeight ||
                                           0) *
-                                          secondaryViewSnapThresholdForNextView
+                                          showPreviousSecodaryViewThreshold
                                     : (data[index - 1]?.primaryViewHeight ||
                                           0) -
                                       ((data[index - 2]?.secondaryViewHeight ||
                                           0) *
-                                          secondaryViewSnapThresholdForNextView +
+                                          showPreviousSecodaryViewThreshold +
                                           (data[index - 1]
                                               ?.secondaryViewHeight || 0) *
-                                              secondaryViewSnapThresholdForNextView)
+                                              showPreviousSecodaryViewThreshold)
                                 : (data[index - 1]?.secondaryViewHeight || 0) *
-                                  (1 - secondaryViewSnapThresholdForNextView))
+                                  (1 - showPreviousSecodaryViewThreshold))
 
                         // nextY -= data[index - 1]?.secondaryViewHeight || 0
                     } else {
@@ -113,7 +113,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                             index === 0 && itemOpenGap === 1
                                 ? (data[0] || { secondaryViewHeight: 0 })
                                       .secondaryViewHeight *
-                                  (1 - secondaryViewSnapThresholdForNextView)
+                                  (1 - showPreviousSecodaryViewThreshold)
                                 : data
                                       .slice(0, nextOpenIndex - 1)
                                       .reduce(
@@ -127,7 +127,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                                       (data?.[index1 - 1]
                                                           ?.secondaryViewHeight ||
                                                           0) *
-                                                          secondaryViewSnapThresholdForNextView),
+                                                          showPreviousSecodaryViewThreshold),
                                           0,
                                       ) +
                                   ((
@@ -135,8 +135,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                           secondaryViewHeight: 0,
                                       }
                                   ).secondaryViewHeight || 0) *
-                                      (1 -
-                                          secondaryViewSnapThresholdForNextView)
+                                      (1 - showPreviousSecodaryViewThreshold)
                     }
 
                     console.log(nextY, 'nextY', collapsed, collapsedState, data)
@@ -148,12 +147,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                 }
             }
         },
-        [
-            data,
-            animatedRef,
-            setActiveIndex,
-            secondaryViewSnapThresholdForNextView,
-        ],
+        [data, animatedRef, setActiveIndex, showPreviousSecodaryViewThreshold],
     )
 
     const onChangeState = (index: number, exact = false) => {
@@ -261,7 +255,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                     ? endLocation
                     : endLocation -
                       (endLocation - startLocation) *
-                          activeIndexThersholdDetection
+                          activeViewDetectionBottomThreshold
             const isLocationInRange =
                 stopLocation >= startLocation && stopLocation < nextEndLocation
             if (isLocationInRange) {
@@ -341,7 +335,7 @@ const HOCForAddingAnimationFunctionalityPage = ({
                                     : primaryViewHeight -
                                       (data[index - 1]?.secondaryViewHeight ||
                                           0) *
-                                          secondaryViewSnapThresholdForNextView
+                                          showPreviousSecodaryViewThreshold
                             }
                             changeAnimationTrigger={collapsedState[index]}
                             callBackForOtherLogic={() => {
