@@ -4,9 +4,9 @@ The Collapsible Pages component is a complex UI component designed to display pr
 
 Key Features:
 
-Display primary and secondary views with smooth transitions.
-Automatic handling of hardware back actions and active index detection on scrolling.
-Support for specifying different heights for each data item, with internal handling for smooth transitions.
+- Display primary and secondary views with smooth transitions.
+- Automatic handling of hardware back actions and active index detection on scrolling.
+- Support for specifying different heights for each data item, with internal handling for smooth transitions.
 
 ## Installation
 
