@@ -1,8 +1,12 @@
 # react-native-collapsible-pages
 
-Collapsible pages on the same screen with primary and secodary view. This is a complex component where you can provide primary and secondary view.
-Where primaryView transition to seondaryView and vice versa. Hardware back and Scrolling is handled as well. You can provide different height in each data
-and it will internally automatically handle every thing for you.
+The Collapsible Pages component is a complex UI component designed to display primary and secondary views on the same screen, allowing seamless transition between the two views. It provides a user-friendly interface for handling hardware back actions and detecting the active index on scrolling.
+
+Key Features:
+
+Display primary and secondary views with smooth transitions.
+Automatic handling of hardware back actions and active index detection on scrolling.
+Support for specifying different heights for each data item, with internal handling for smooth transitions.
 
 ## Installation
 
