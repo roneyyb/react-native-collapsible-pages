@@ -21,7 +21,7 @@ Check example directory for detailed usage.
 
 ```
 
-[![Watch the video]](https://github.com/roneyyb/react-native-collapsible-pages/blob/main/screen-20240306-180919%20(3)%20(1)%20(1).mp4)
+![Animation](https://github.com/roneyyb/react-native-collapsible-pages/blob/main/screen-20240306-18091931-ezgif.com-video-to-gif-converter.gif)
 
 ## Props and Types
 
