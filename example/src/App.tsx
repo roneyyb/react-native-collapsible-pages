@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import HOC, {
+import CollapsiblePages, {
     type IItemsListAnimation,
     type IViewProps,
 } from 'react-native-collapsible-pages'
@@ -50,7 +50,7 @@ export default function App() {
     console.log('active index', activeIndex)
     return (
         <GestureHandlerRootView style={styles.container}>
-            <HOC
+            <CollapsiblePages
                 data={views}
                 activeIndex={activeIndex}
                 setActiveIndex={setActiveIndex}
