@@ -16,7 +16,7 @@ yarn add react-native-collapsible-pages react-native-reanimated react-native-ges
 ```
 ## Demo
 
-![Animation](https://github.com/roneyyb/react-native-collapsible-pages/blob/main/screen-20240307-12513023-ezgif.com-optimize.gif)
+![Animation](https://github.com/roneyyb/react-native-collapsible-pages/blob/main/screen-20240307-1251302_resized-ezgif.com-video-to-gif-converter.gif)
 
 
 ## Usage
